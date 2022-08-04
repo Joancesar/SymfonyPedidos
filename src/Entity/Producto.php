@@ -131,14 +131,6 @@ class Producto
         return $this;
     }
 
-    public function getNameUrl() {
-        $value = $this->nombre;
-        $value = iconv('utf-8', 'us-ascii//TRANSLIT', $value);
-        $value = preg_replace('/[\W]+/', '-', $value);
-        $value = preg_replace('/-+/', '-', $value);
-        $value = trim(strtolower($value));
-        return $value;
-    }
     public function __toString()
     {
         return "$this->id";
