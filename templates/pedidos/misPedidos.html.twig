@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Aplicacion Pedidos - {{ app.user.username }} mis pedidos
+{% endblock %}
+{% block navbar %}
+    {% set usuario = "active" %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <div class="mx-sm-7">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+        <h2 class="uk-text-bolder text-white">Mis Pedidos</h2>
+        <div class="mt-5 p-3 bg-light shadow-lg rounded">
+            <h2> {{ app.user.pedidos|length }} pedidos realizados en total</h2>
+            {% for pedido in app.user.pedidos|reverse %}
+                <div class="card my-4">
+                    <div class="card-header h5 d-flex justify-content-between">
+                        <div>
+                            Pedido realizado el
+                            <span class="text-muted">
+                                {{ pedido.fecha|format_datetime(pattern="dd 'de' MMMM 'de' yyyy", locale='es') }}
+                            </span>
+                        </div>
+                        <div>
+                            Pedido Nº <span class="text-muted"> {{ pedido.id }}</span>
+                        </div>
+                        <div>
+                            Estado: {{ pedido.estado|raw }}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% set total = 0 %}
+                        {% for pedidoProducto in pedido.pedidoProductos %}
+                            {% set total =+ pedidoProducto.codProd.precio * pedidoProducto.unidades %}
+                            <div>
+                                <div>
+                                    <div>
+                                        <img src="{{ asset('img/'~pedidoProducto.codProd.imagenProducto) }}" alt="imagen producto" width="90">
+                                        <span class="badge badge-pill badge-dark">{{ pedidoProducto.unidades }}</span>
+                                    </div>
+                                    <h4>{{ pedidoProducto.codProd.nombre }}</h4>
+                                    <span> {{ pedidoProducto.codProd.precio|number_format(2,',','')~'€' }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <h5 class="card-title">Total {{ total|number_format(2,',','')~'€'  }}</h5>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+

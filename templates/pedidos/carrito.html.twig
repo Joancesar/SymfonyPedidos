@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Aplicacion Pedidos - Carrito
+{% endblock %}
+{% block navbar %}
+    {% set carrito = "active" %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <div class="mx-sm-7">
+        <div class="mt-5 p-3 bg-light shadow-lg rounded">
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            <div>
+                <h4>{{ app.session.get('totalUnidades')|default(0) }} articulos en tu cesta</h4>
+            </div>
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ARTÍCULO</th>
+                        <th>PRECIO</th>
+                        <th>UNIDADES</th>
+                        <th>TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for producto in productos %}
+                    <tr>
+                        <td>
+                            <div class="uk-flex-middle" uk-grid>
+                                <div class="uk-width-1-4">
+                                    <img src="{{ asset('img/'~producto.imagen) }}" alt="imagen producto" width="120">
+                                </div>
+                                <h4 class="uk-width-3-4">{{ producto.nombre }}</h4>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="uk-width-medium uk-flex uk-flex-middle">
+                                <h4 class="text-muted">{{ producto.precio|number_format(2,',','')~'€'}}</h4>
+                            </div>
+                        </td>
+                        <td class="uk-width-medium">
+                            <form action="{{ path('actualizar') }}" method="post" class="m-0 uk-child-width-1-2" uk-grid>
+                                <input type="hidden" name="id" value="{{ producto.id }}">
+                                <input type="number" name="unidades" id="totalUnidades" class="p-1" value="{{ producto.unidades }}" min="1" max="999">
+                            </form>
+                        </td>
+                        <td>
+                            <h4 class="text-muted">{{ (producto.precio * producto.unidades)|number_format(2,',','')~'€'}}</h4>
+                        </td>
+                        <td>
+                            <form action="{{ path('eliminar') }}" method="post">
+                                <input type="hidden" name="id" value="{{ producto.id }}">
+                                <button type="submit" class="text-muted">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>No hay articulos en tu cesta</td>
+                    </tr>
+                {% endfor %}
+                {% if productos %}
+                    <tr>
+                        <td class="text-right" colspan="4">
+                            <h2>Total: {{ total|number_format(2,',','')~'€' }}</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right" colspan="4">
+                            <a class="btn btn-primary btn-lg" href="{{ path('realizarPedido') }}">Realizar Pedido</a>
+                        </td>
+                    </tr>
+                {% endif %}
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}
+
+

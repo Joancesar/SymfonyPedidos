@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Aplicacion Pedidos{% endblock %}
+
+{% block navbar %}
+    {% set index = "active" %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+
+    <div class="mx-sm-6 my-5 text-center">
+        <h2 class="uk-text-bolder text-white">PRODUCTOS MAS VENDIDOS</h2>
+        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
+            <div class="uk-slider-container uk-slider-container-offset">
+                <ul class="uk-slider-items uk-child-width-1-2@s uk-child-width-1-4@m uk-grid-match" uk-grid>
+                    {% for prod in productos|slice(0, 12) %}
+                    <form action="{{ path('productos', {nombre: prod.nombre|urlSanitize}) }}" method="POST">
+                        <input type="hidden" name="id" value="{{ prod.id }}">
+                        <li class="uk-transition-toggle uk-inline-clip">
+                            <div class="uk-card uk-card-default uk-card-hover">
+                                <div class="uk-card-media-top p-3">
+                                    <img src="{{ asset('img/'~prod.imagenProducto) }}" alt="imagen producto"
+                                         width="170">
+                                </div>
+                                <div class="uk-card-header uk-height-small">
+                                    <h5 class="uk-card-title">{{ prod.nombre }}</h5>
+                                </div>
+                                <div class="uk-card-body">
+                                    <div class="uk-text-bolder"><h4 class="text-primary">{{ prod.precio|number_format(2,',','')~'€'}}</h4></div>
+                                    <span title="{{ prod.descripcion }}" class="uk-text-break">{{ prod.descripcion|length > 50
+                                        ? prod.descripcion[:50]~'...':prod.descripcion }}</span>
+                                </div>
+                            </div>
+                            <div class="uk-transition-slide-bottom-medium uk-position-bottom uk-overlay uk-overlay-default">
+                                <button type="submit" class="btn btn-primary">Ver producto</button>
+                            </div>
+                        </li>
+                    </form>
+                    {% endfor %}
+                </ul>
+                <a class="uk-position-center-left-out uk-position-large font-weight-bolder text-dark" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                <a class="uk-position-center-right-out uk-position-large font-weight-bolder text-dark" href="#" uk-slidenav-next uk-slider-item="next"></a>
+            </div>
+            <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+        </div>
+    </div>
+{% endblock %}

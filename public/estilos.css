@@ -1,0 +1,26 @@
+html {
+    font-size: 1rem;
+}
+.myButton,
+.myButton:active,
+.myButton:focus {
+    background: transparent;
+    color: transparent;
+    border-color: transparent;
+    border-style: solid;
+}
+@media (min-width: 576px) {
+    .mx-sm-6 {
+        margin-right: 7.5rem;
+        margin-left: 7.5rem;
+    }
+
+    .mx-sm-7 {
+        margin-right: 15rem;
+        margin-left: 15rem;
+    }
+}
+
+.dropdown-menu {
+    font-size: 1.2rem;
+}

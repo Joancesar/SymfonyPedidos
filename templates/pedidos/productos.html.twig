@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Aplicacion Pedidos - Producto {{ producto.nombre }}
+{% endblock %}
+{% block navbar %}
+    {% set productos = "active" %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <div class="mx-sm-7 text-center">
+        <div class="mt-5 p-3 bg-light shadow-lg rounded uk-child-width-1-2@m uk-grid-divider" uk-grid>
+            <div>
+                <img src="{{ asset('img/'~producto.imagenProducto) }}" alt="imagen producto" width="400">
+            </div>
+            <div class="uk-flex uk-flex-column uk-text-left">
+                <div>
+                    <h3>{{ producto.nombre }}</h3>
+                </div>
+                <div class="uk-text-bolder">
+                    <h4 class="text-primary">{{ producto.precio|number_format(2,',','')~'€'}}</h4>
+                </div>
+                <form action="{{ path('anadir') }}" method="post">
+                    <input type="hidden" name="id" value="{{ producto.id }}">
+                    <div class="uk-grid-divider" uk-grid>
+                        <div class="uk-width-1-4 uk-text-bolder">Descripción: </div>
+                        <div class="uk-width-3-4">{{ producto.descripcion }}</div>
+                    </div>
+                    <div class="uk-grid-divider" uk-grid>
+                        <div class="uk-width-1-4 uk-text-bolder">Cantidad: </div>
+                        <div class="uk-width-3-4">
+                            <input type="number" name="unidades" value="1" min="1" max="999">
+                        </div>
+                    </div>
+                    <div class="uk-grid-divider" uk-grid>
+                        <div class="uk-width-1-4 uk-text-bolder">Disponibilidad: </div>
+                        <div class="uk-width-3-4">
+                            {% if producto.stock > 10 %}
+                                <div class="alert-success p-0 text-center">
+                                    <p>¡En Stock!</p>
+                                </div>
+                            {% elseif producto.stock > 0 %}
+                                <div class="alert-warning p-0 text-center">
+                                    <p>¡Rapido solo quedan {{ producto.stock }}!</p>
+                                </div>
+                            {% else %}
+                                <div class="alert-danger p-0 text-center">
+                                    <p>Sin Stock</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if producto.stock > 0%}
+                        <button class="btn btn-primary btn-lg btn-block mt-3" type="submit">
+                            <i class="fa fa-cart-arrow-down"></i>  Añadir al carrito
+                        </button>
+                    {% else %}
+                        <button class="btn btn-primary btn-lg btn-block mt-3" type="submit" disabled>
+                            <i class="fa fa-cart-arrow-down"></i>  Añadir al carrito
+                        </button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Aplicacion Pedidos - Categoría {{ nombre }}
+{% endblock %}
+
+{% block navbar %}
+    {% set categorias = "active" %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="mx-sm-6 text-center">
+        <h2 class="uk-text-bolder py-5 text-white">{{ nombre }}</h2>
+        <ul class="uk-child-width-1-2@s uk-child-width-1-4@m uk-grid-match" uk-grid>
+            {% for prod in productos %}
+                <form action="{{ path('productos', {nombre: prod.nombre|urlSanitize}) }}" method="POST">
+                    <input type="hidden" name="id" value="{{ prod.id }}">
+                    <li class="uk-transition-toggle uk-inline-clip">
+                        <div class="uk-card uk-card-default uk-card-hover uk-link-text">
+                            <div class="uk-card-media-top p-3">
+                                <img src="{{ asset('img/'~prod.imagenProducto) }}" alt="imagen producto"
+                                     width="150">
+                            </div>
+                            <div class="uk-card-header uk-height-small">
+                                <h6 class="uk-card-title">{{ prod.nombre}}</h6>
+                            </div>
+                            <div class="uk-card-body uk-height-small">
+                                <div class="uk-text-bolder"><h5 class="text-primary">{{ prod.precio|number_format(2,',','')~'€'}}</h5></div>
+                                <span title="{{ prod.descripcion }}" class="uk-text-break">{{ prod.descripcion|length > 50
+                                    ? prod.descripcion[:50]~'...':prod.descripcion }}</span>
+                            </div>
+                        </div>
+                        <div class="uk-transition-fade uk-overlay-default uk-position-cover uk-flex uk-flex-center uk-flex-middle">
+                            <button type="submit" class="btn btn-primary">Ver producto</button>
+                        </div>
+                    </li>
+                </form>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,6 @@
+{% for categoria in categorias %}
+    <form action="{{ path('categorias', { nombre: categoria.nombre|urlSanitize }) }}" method="POST">
+        <input type="hidden" name="id" value="{{ categoria.id }}">
+        <button class="dropdown-item" type="submit">{{ categoria.nombre }}</button>
+    </form>
+{% endfor %}
