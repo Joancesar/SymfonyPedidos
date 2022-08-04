@@ -65,7 +65,9 @@
             <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.10/dist/js/uikit-icons.min.js"></script>
             <script>
                 $("#totalUnidades").one('change', function() {
-                    $(this).after("<button type='submit' class='btn btn-primary btn-sm'>Actualizar</button>");
+                    $(this).after(
+                        "<button type='submit' class='btn btn-primary btn-sm' " +
+                    "style='width: 80px !important; margin-top: 2px !important;'>Actualizar</button>");
                 });
             </script>
         {% endblock %}

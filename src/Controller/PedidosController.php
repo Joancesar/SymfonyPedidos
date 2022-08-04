@@ -42,10 +42,9 @@ class PedidosController extends AbstractController
         ]);
     }
     /**
-     * @Route("/productos/{nombre}", name="productos")
+     * @Route("/productos/{id}", name="productos")
      */
-    public function productos($nombre, Request $request) {
-        $id = $request->get('id');//Recogemos el id enviado por Post
+    public function productos($id, Request $request) {
         $producto = $this->getDoctrine()->getRepository(Producto::class)->find($id);
 
         return $this->render('pedidos/productos.html.twig', [

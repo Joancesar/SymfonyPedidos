@@ -14,8 +14,7 @@
             <div class="uk-slider-container uk-slider-container-offset">
                 <ul class="uk-slider-items uk-child-width-1-2@s uk-child-width-1-4@m uk-grid-match" uk-grid>
                     {% for prod in productos|slice(0, 12) %}
-                    <form action="{{ path('productos', {nombre: prod.nombre|urlSanitize}) }}" method="POST">
-                        <input type="hidden" name="id" value="{{ prod.id }}">
+                    <form action="{{ path('productos', {id: prod.id}) }}" method="POST">
                         <li class="uk-transition-toggle uk-inline-clip">
                             <div class="uk-card uk-card-default uk-card-hover">
                                 <div class="uk-card-media-top p-3">

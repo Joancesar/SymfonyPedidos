@@ -47,6 +47,13 @@ class Producto
      */
     private $imagenProducto;
 
+    public function __construct()
+    {
+        // OneToMany
+        $this->dlcs   = new ArrayCollection();
+        $this->prices = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,6 +129,15 @@ class Producto
         $this->imagenProducto = $imagenProducto;
 
         return $this;
+    }
+
+    public function getNameUrl() {
+        $value = $this->nombre;
+        $value = iconv('utf-8', 'us-ascii//TRANSLIT', $value);
+        $value = preg_replace('/[\W]+/', '-', $value);
+        $value = preg_replace('/-+/', '-', $value);
+        $value = trim(strtolower($value));
+        return $value;
     }
     public function __toString()
     {
