@@ -14,7 +14,7 @@
 /var/cache/*
 /var/log/*
 /var/sessions/*
-/var/datos.sqlite
+./var/datos.sqlite
 /vendor/
 ###< symfony/framework-bundle ###
 
